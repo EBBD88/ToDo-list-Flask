@@ -20,6 +20,7 @@ features:
     - set a time/date (with all day obtion should be selected by default)
     - make them repeatable(e.g; every day/week)
     - set a deadline (no start but completed before XX:XX:XXX)
+    - set sub tasks ( make a list of groceries for exemple)
 
  
 - have a home page that gives simple control over the task:
