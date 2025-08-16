@@ -1,0 +1,92 @@
+-- database: ./todo_list.db
+
+SELECT * FROM Tasks;
+
+
+SELECT * FROM Goals;
+
+
+SELECT *
+FROM Tasks
+ORDER BY start_time asc
+;
+
+
+
+UPDATE Goals 
+Set user_id = 1
+WHERE rowid > 5;
+
+
+
+SELECT Users.name,Tasks.title
+FROM Tasks
+JOIN Users On Users.user_id=Tasks.user_id;
+
+
+SELECT Users.*,Tasks.*
+FROM Tasks
+JOIN Users On Users.user_id=Tasks.user_id;
+
+
+SELECT Users.*,Goals.*
+FROM Goals
+JOIN Users On Users.user_id=Goals.user_id;
+
+
+/* task on certain time */
+SELECT finish_time,start_time
+FROM Tasks
+WHERE strftime('%H:%M:%S', finish_time) = '10:00:00';
+
+
+                /* today table */
+SELECT *
+FROM Tasks
+WHERE date(start_time) = '2024-02-05'   /* user date */
+AND Tasks.user_id=1    /* user id */
+ORDER by start_time ASC;
+
+
+                /* Upcoming tasks for the next 7 days*/
+SELECT Tasks.*
+FROM tasks
+WHERE date(start_time) BETWEEN '2024-02-04' AND Date('2024-02-09')
+AND Tasks.user_id=1
+ORDER by start_time ASC;
+
+                /* ongoing tasks */
+SELECT *
+FROM tasks
+WHERE (start_time < '2024-02-07 00:00:00'   /* user time */
+AND (finish_time > '2024-02-07 00:00:00'    /* user time */
+OR finish_time IS NULL))
+AND completed = 0
+AND user_id = 1  /* user id */
+ORDER BY finish_time DESC;
+
+
+
+                /* completed tasks */
+SELECT *
+FROM Tasks
+WHERE user_id = 1         /* user id */
+and completed = 1
+ORDER BY finish_time DESC;      /* finish_time should be set to moment completed is pressed */
+
+
+
+                /* Goals */
+SELECT *
+FROM Goals
+WHERE completed = 0
+AND user_id = 1           /* user id */
+ORDER BY importance desc;
+
+
+             /* completed goal */
+SELECT *
+FROM Goals
+WHERE user_id = 1
+AND completed = 1
+ORDER BY 
