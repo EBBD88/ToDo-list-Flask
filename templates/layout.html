@@ -3,11 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
     <title>Document</title>
     <script src="{{ url_for('static', filename='local_time.js') }}" defer></script>
 </head>
 <body>
-    {% block body %}
-    {% endblock %}
+    <div class="sidebar">
+        <a href="/">
+            <div class="account-op">
+                <h4>account options</h4> <!-- dose not do anything for now -->
+            </div>
+        </a>
+        <div class="add-task">
+            <a href="" class="add-task-button">+</a>
+            <h3>Add Task button</h3>
+        </div>
+        <div>
+            <a href="" class="page-button">today</a>
+        </div>
+        <div>
+            <a href="" class="page-button">upcoming</a>
+        </div>
+        <div>
+            <a href="" class="page-button">goals/ongoing</a>
+        </div>
+        <div>
+            <a href="" class="page-button">completed</a>
+        </div>
+    </div>
+    <div class="page-display">
+        <a href="/home"><h1>ToDo</h1></a>
+
+        {% block body %}
+        {% endblock %}
+
+    </div>
 </body>
 </html>
