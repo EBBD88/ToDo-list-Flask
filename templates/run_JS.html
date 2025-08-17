@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Welcome!</h1>
+    <p>Your local date will be used to personalize your experience.</p>
+    <p id="status"></p>
+    <a href="{{ url_for('home') }}">
+        <button>HOME PAGE</button>
+    </a>
+{% endblock %}

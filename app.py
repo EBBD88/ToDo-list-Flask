@@ -1,18 +1,21 @@
-from flask import Flask, g
+from flask import Flask, g, render_template, request, jsonify, session, redirect, url_for
+from datetime import datetime, timedelta
 import sqlite3
-
-
-DATABASE = 'todo_list.db'
 
 
 
 app = Flask(__name__)
+app.secret_key = 'super_secret_key'
+
+
+DATABASE = 'todo_list.db'
 
 
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
+        db.row_factory = sqlite3.Row # This allows us to access columns by name
     return db
 
 @app.teardown_appcontext
@@ -28,33 +31,52 @@ def query_db(query, args=(), one=False):
     return (rv[0] if rv else None) if one else rv
 
 
+@app.route('/')          #later change to login page
+def runJS():
+    return render_template('run_JS.html')
+
+
+@app.route('/receive_time', methods=['POST'])
+def receive_time():
+    data = request.get_json()
+    local_time = data.get('local_time')
+    timezone_offset = data.get('timezone_offset')
+    try:
+        user_time = datetime.fromisoformat(local_time.replace('Z', '+00:00'))
+        user_time_corrected = user_time - timedelta(minutes=timezone_offset)
+        user_local_date = user_time_corrected.date().isoformat()
+        session['user_local_date'] = user_local_date
+    except Exception as e:
+        return jsonify({'error': 'Invalid date format sent from client.'}), 400
+    return jsonify({'status': 'success'})
+
 
 @app.route("/home")
 def home():
-
-    # this sql needs user id and date
-        # replace '2024-02-05' by user date
-        # replace Tasks.user_id=1 by Tasks.user_id='user id'
+    user_local_date = session.get('user_local_date')
+    if not user_local_date:
+        return redirect(url_for('runJS'))  # Ensure we have the local date
+    user_id = 1
+    
     today_tasks_sql = """ 
                           SELECT *
                           FROM Tasks
-                          WHERE date(start_time) = '2024-02-05'
-                          AND Tasks.user_id=1
+                          WHERE date(start_time) = ?
+                          AND Tasks.user_id=?
                           ORDER by start_time ASC;
                       """
-    today_tasks_results = query_db(today_tasks_sql)
+    today_tasks_results = query_db(today_tasks_sql, [user_local_date, user_id])
     
     # this sql needs user id and datetime and user id
-        # replace Tasks.user_id=1 by Tasks.user_id='user id'
         # replace '2024-02-04' with user DATETIME
     upcoming_tasks_sql = """
                             SELECT Tasks.*
                             FROM tasks
                             WHERE date(start_time) BETWEEN '2024-02-05' AND Date('2024-02-10')
-                            AND Tasks.user_id=1
+                            AND Tasks.user_id=?
                             ORDER by start_time ASC;
                          """
-    upcoming_tasks_results = query_db(upcoming_tasks_sql)
+    upcoming_tasks_results = query_db(upcoming_tasks_sql, [user_id])
     
     # this sql needs user DATETIME and user id
         # replace '2024-02-07 00:00:00' with user DATETIME
@@ -65,19 +87,19 @@ def home():
                            AND (finish_time > '2024-02-07 00:00:00'
                            OR finish_time IS NULL))
                            AND completed = 0
-                           AND user_id = 1
+                           AND user_id = ?
                            ORDER BY finish_time DESC;
                         """
-    ongoing_tasks_results = query_db(ongoing_tasks_sql)
+    ongoing_tasks_results = query_db(ongoing_tasks_sql, [user_id])
 
     goals_sql = """
                     SELECT *
                     FROM Goals
                     WHERE completed = 0
-                    AND user_id = 1
+                    AND user_id = ?
                     ORDER BY importance desc;
                 """
-    goal_results = query_db(goals_sql)
+    goal_results = query_db(goals_sql, [user_id])
 
     results = {
         'Today_tasks' : today_tasks_results,
@@ -85,7 +107,7 @@ def home():
         'Ongoing_tasks' : ongoing_tasks_results,
         'Goals' : goal_results
     }
-    return results
+    return render_template('home.html', results=results, user_local_date=user_local_date)
 
 
 
