@@ -9,7 +9,7 @@ app.secret_key = 'super_secret_key'
 
 
 DATABASE = 'todo_list.db'
-
+user_id = 1  # This should be dynamically set based on the logged-in user
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -56,7 +56,6 @@ def home():
     user_local_date = session.get('user_local_date')
     if not user_local_date:
         return redirect(url_for('runJS'))  # Ensure we have the local date
-    user_id = 1
     
     today_tasks_sql = """ 
                           SELECT *
