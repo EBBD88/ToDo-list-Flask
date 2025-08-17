@@ -72,7 +72,7 @@ SELECT *
 FROM Tasks
 WHERE user_id = 1         /* user id */
 and completed = 1
-ORDER BY finish_time DESC;      /* finish_time should be set to moment completed is pressed */
+ORDER BY finish_time ASC;      /* finish_time should be set to moment completed is pressed */
 
 
 
@@ -89,4 +89,4 @@ SELECT *
 FROM Goals
 WHERE user_id = 1
 AND completed = 1
-ORDER BY 
+ORDER BY finish_time ASC; /* finish_time should be set to moment completed is pressed */
