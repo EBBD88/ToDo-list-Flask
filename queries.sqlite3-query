@@ -44,15 +44,15 @@ WHERE strftime('%H:%M:%S', finish_time) = '10:00:00';
 SELECT *
 FROM Tasks
 WHERE date(start_time) = '2024-02-05'   /* user date */
-AND Tasks.user_id=1    /* user id */
+AND user_id=1    /* user id */
 ORDER by start_time ASC;
 
 
                 /* Upcoming tasks for the next 7 days*/
 SELECT Tasks.*
 FROM tasks
-WHERE date(start_time) BETWEEN '2024-02-04' AND Date('2024-02-09')
-AND Tasks.user_id=1
+WHERE date(start_time) BETWEEN '2024-02-04' AND Date('2024-02-04', '+7 days')  /* user date */
+AND user_id=1
 ORDER by start_time ASC;
 
                 /* ongoing tasks */

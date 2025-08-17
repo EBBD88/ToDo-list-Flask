@@ -44,8 +44,13 @@ def receive_time():
     try:
         user_time = datetime.fromisoformat(local_time.replace('Z', '+00:00'))
         user_time_corrected = user_time - timedelta(minutes=timezone_offset)
-        user_local_date = user_time_corrected.date().isoformat()
+        # Format as 'YYYY-MM-DD'
+        user_local_date = user_time_corrected.strftime('%Y-%m-%d')
+        # Format as 'YYYY-MM-DD HH:MM:SS'
+        user_local_datetime = user_time_corrected.strftime('%Y-%m-%d %H:%M:%S')
+        # Save both in session
         session['user_local_date'] = user_local_date
+        session['user_local_datetime'] = user_local_datetime
     except Exception as e:
         return jsonify({'error': 'Invalid date format sent from client.'}), 400
     return jsonify({'status': 'success'})
@@ -54,8 +59,9 @@ def receive_time():
 @app.route("/home")
 def home():
     user_local_date = session.get('user_local_date')
-    if not user_local_date:
-        return redirect(url_for('runJS'))  # Ensure we have the local date
+    user_local_datetime = session.get('user_local_datetime')
+    if not user_local_date or not user_local_datetime:
+        return redirect(url_for('runJS'))  # Ensure we have the local date and datetime
     
     today_tasks_sql = """ 
                           SELECT *
@@ -65,31 +71,29 @@ def home():
                           ORDER by start_time ASC;
                       """
     today_tasks_results = query_db(today_tasks_sql, [user_local_date, user_id])
-    
-    # this sql needs user id and datetime and user id
-        # replace '2024-02-04' with user DATETIME
+
     upcoming_tasks_sql = """
-                            SELECT Tasks.*
-                            FROM tasks
-                            WHERE date(start_time) BETWEEN '2024-02-05' AND Date('2024-02-10')
-                            AND Tasks.user_id=?
+                            SELECT *
+                            FROM Tasks
+                            WHERE date(start_time) BETWEEN ? AND Date(?, '+7 days')
+                            AND user_id=?
                             ORDER by start_time ASC;
                          """
-    upcoming_tasks_results = query_db(upcoming_tasks_sql, [user_id])
+    upcoming_tasks_results = query_db(upcoming_tasks_sql, [user_local_date,user_local_date,user_id])
     
     # this sql needs user DATETIME and user id
         # replace '2024-02-07 00:00:00' with user DATETIME
         # replace user_id=1 with user_id='user id' 
     ongoing_tasks_sql = """SELECT *
                            FROM tasks
-                           WHERE (start_time < '2024-02-07 00:00:00'
-                           AND (finish_time > '2024-02-07 00:00:00'
+                           WHERE (start_time < ?
+                           AND (finish_time > ?
                            OR finish_time IS NULL))
                            AND completed = 0
                            AND user_id = ?
                            ORDER BY finish_time DESC;
                         """
-    ongoing_tasks_results = query_db(ongoing_tasks_sql, [user_id])
+    ongoing_tasks_results = query_db(ongoing_tasks_sql, [user_local_datetime,user_local_datetime,user_id])
 
     goals_sql = """
                     SELECT *
@@ -106,7 +110,7 @@ def home():
         'Ongoing_tasks' : ongoing_tasks_results,
         'Goals' : goal_results
     }
-    return render_template('home.html', results=results, user_local_date=user_local_date)
+    return render_template('home.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
 
 
