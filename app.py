@@ -75,7 +75,7 @@ def home():
     upcoming_tasks_sql = """
                             SELECT *
                             FROM Tasks
-                            WHERE date(start_time) BETWEEN ? AND Date(?, '+7 days')
+                            WHERE date(start_time) BETWEEN Date(?, '+1 days') AND Date(?, '+7 days')
                             AND user_id=?
                             ORDER by start_time ASC;
                          """
