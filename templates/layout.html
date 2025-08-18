@@ -31,10 +31,12 @@
         <div>
             <a href="" class="page-button">completed</a>
         </div>
-        <h1>{{ user_local_datetime }}</h1>
     </div>
     <div class="page-display">
-        <a href="/home" class="home-button">ToDo</a>
+        <div class="header">
+            <a href="/home" class="home-button">ToDo</a>
+            <p class="datetime">{{ user_local_datetime }}</p>
+        </div>
         <div>
 
             {% block body %}
