@@ -1,25 +1,15 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <h1>Tasks for your day: {{ user_local_datetime }}</h1>
-    <ul>
-        {% for task in results.Today_tasks %}
-            <li>{{ task.title }} - {{ task.start_time }}</li>
-        {% endfor %}
-    </ul>
-    <ul>
-        {% for task in results.Upcoming_tasks %}
-            <li>{{ task.title }} - {{ task.start_time }}</li>
-        {% endfor %}
-    </ul>
-    <ul>
-        {% for task in results.Ongoing_tasks %}
-            <li>{{ task.title }} - {{ task.start_time }}</li>
-        {% endfor %}
-    </ul>
-    <ul>
-        {% for goal in results.Goals %}
-            <li>{{ goal.title }} - {{ goal.importance }}</li>
-        {% endfor %}
-    </ul>
+<div class="task-container">
+    <div class="container">
+        
+    </div>
+    <div class="container"></div>
+    <div class="container"></div>
+</div>
+<div class="goals-container">
+    <div class="goals-home">
+    </div>
+</div>
 {% endblock %}

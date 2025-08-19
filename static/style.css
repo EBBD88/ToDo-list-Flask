@@ -7,13 +7,14 @@ body {
 }
 
 .sidebar {
-    width: 18.9999%;
+    width: 19%;
     min-height: 100vh;
     border: solid 1px;
 }
 
 .account-op {
     border: solid 1px;
+    border-top: none;
     padding: 10px;
     text-align: center;
 }
@@ -76,17 +77,44 @@ body {
 
 .home-button,
 .datetime {
-    line-height: 5vh;
+    height: 7%;
     margin: 0 20px;
     padding: 0;
-}
-
-.home-button {
-    font-size: 2em;
+    font-size: 1.8em;
     display: inline;
 }
 
-.datetime {
-    font-size: 1.2em;
-    display: inline;
+.all-containers {
+    height: 100%;
 }
+
+.task-container {
+    display: flex;
+    flex: row;
+    justify-content: space-evenly;
+    height: 68vh;
+}
+
+.container {
+    border: solid 1px;
+    border-radius: 5px;
+    width: 21%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+}
+
+.goals-container {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+}
+
+.goals-home{
+    margin: auto 0;
+    border: solid 1px;
+    height: 80%;
+    width: 81.5%;
+    border-radius: 5px;
+}
+
