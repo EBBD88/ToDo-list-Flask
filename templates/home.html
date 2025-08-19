@@ -3,13 +3,41 @@
 {% block body %}
 <div class="task-container">
     <div class="container">
-        
+        <div class="main-tasks">ToDay</div>
+        <div class="task-scroll">
+            {% for task in results.Today_tasks %}
+                <div class="task-item"></div>
+            {% endfor %}
+        </div>
     </div>
-    <div class="container"></div>
-    <div class="container"></div>
+    <div class="container">
+        <div class="main-tasks">Upcoming</div>
+        <div class="task-scroll">
+            {% for task in results.Upcoming_tasks %}
+                <div class="task-item"></div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="main-tasks">Ongoing</div>
+        <div class="task-scroll">
+            {% for task in results.Ongoing_tasks %}
+                <div class="task-item"></div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 <div class="goals-container">
     <div class="goals-home">
+        <div class="big-goal"></div>
+        <div class="small-goals-title">
+            <p>Goals</p>
+            <div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="big-goal"></div>
     </div>
 </div>
 {% endblock %}
