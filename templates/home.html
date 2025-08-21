@@ -1,12 +1,29 @@
 {% extends "layout.html" %}
 
+{% block links %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+{% endblock %}
+
 {% block body %}
 <div class="task-container">
     <div class="container">
         <div class="main-tasks">ToDay</div>
         <div class="task-scroll">
             {% for task in results.Today_tasks %}
-                <div class="task-item"></div>
+                <div class="task-item">
+                    
+                    <div class="icon-group">
+                        <span class="material-symbols-outlined ">edit</span>
+                        <span class="icon-swap">
+                            <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
+                            <span class="material-symbols-outlined hover-icon">check_box</span>
+                        </span>
+                        <span class="icon-swap">
+                            <span class="material-symbols-outlined default-icon">delete</span>
+                            <span class="material-symbols-outlined hover-icon">delete_forever</span>
+                        </span>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </div>
@@ -14,7 +31,19 @@
         <div class="main-tasks">Upcoming</div>
         <div class="task-scroll">
             {% for task in results.Upcoming_tasks %}
-                <div class="task-item"></div>
+                <div class="task-item">
+                    <div class="icon-group">
+                        <span class="material-symbols-outlined ">edit</span>
+                        <span class="icon-swap">
+                            <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
+                            <span class="material-symbols-outlined hover-icon">check_box</span>
+                        </span>
+                        <span class="icon-swap">
+                            <span class="material-symbols-outlined default-icon">delete</span>
+                            <span class="material-symbols-outlined hover-icon">delete_forever</span>
+                        </span>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </div>
@@ -22,22 +51,82 @@
         <div class="main-tasks">Ongoing</div>
         <div class="task-scroll">
             {% for task in results.Ongoing_tasks %}
-                <div class="task-item"></div>
+                <div class="task-item">
+                    <div class="icon-group">
+                        <span class="material-symbols-outlined ">edit</span>
+                        <span class="icon-swap">
+                            <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
+                            <span class="material-symbols-outlined hover-icon">check_box</span>
+                        </span>
+                        <span class="icon-swap">
+                            <span class="material-symbols-outlined default-icon">delete</span>
+                            <span class="material-symbols-outlined hover-icon">delete_forever</span>
+                        </span>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </div>
 </div>
 <div class="goals-container">
     <div class="goals-home">
-        <div class="big-goal"></div>
+        <div class="big-goal">
+            <div class="icon-group">
+                <span class="material-symbols-outlined ">edit</span>
+                <span class="icon-swap">
+                    <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
+                    <span class="material-symbols-outlined hover-icon">check_box</span>
+                </span>
+                <span class="icon-swap">
+                    <span class="material-symbols-outlined default-icon">delete</span>
+                    <span class="material-symbols-outlined hover-icon">delete_forever</span>
+                </span>
+            </div>
+        </div>
         <div class="small-goals-title">
             <p>Goals</p>
             <div>
-                <div></div>
-                <div></div>
+                <div>
+                    <div class="icon-group">
+                        <span class="material-symbols-outlined ">edit</span>
+                        <span class="icon-swap">
+                            <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
+                            <span class="material-symbols-outlined hover-icon">check_box</span>
+                        </span>
+                        <span class="icon-swap">
+                            <span class="material-symbols-outlined default-icon">delete</span>
+                            <span class="material-symbols-outlined hover-icon">delete_forever</span>
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="icon-group">
+                        <span class="material-symbols-outlined ">edit</span>
+                        <span class="icon-swap">
+                            <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
+                            <span class="material-symbols-outlined hover-icon">check_box</span>
+                        </span>
+                        <span class="icon-swap">
+                            <span class="material-symbols-outlined default-icon">delete</span>
+                            <span class="material-symbols-outlined hover-icon">delete_forever</span>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="big-goal"></div>
+        <div class="big-goal">
+            <div class="icon-group">
+                <span class="material-symbols-outlined ">edit</span>
+                <span class="icon-swap">
+                    <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
+                    <span class="material-symbols-outlined hover-icon">check_box</span>
+                </span>
+                <span class="icon-swap">
+                    <span class="material-symbols-outlined default-icon">delete</span>
+                    <span class="material-symbols-outlined hover-icon">delete_forever</span>
+                </span>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
