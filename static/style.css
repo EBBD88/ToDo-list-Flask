@@ -200,6 +200,12 @@ body {
     font-size: 2.1em;
 }
 
+.small-goals-title > p:hover {
+    background: #f0f0f0;
+    transition: background 0.5s;
+    cursor: pointer;
+}
+
 .small-goals-title > div {
     flex: 1;
     margin: auto 0 0 0;
