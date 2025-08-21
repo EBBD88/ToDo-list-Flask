@@ -239,3 +239,7 @@ body {
 .icon-swap:hover .hover-icon {
   display: inline;
 }
+
+.hover-pointer {
+    cursor: pointer;
+}
