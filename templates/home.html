@@ -11,7 +11,13 @@
         <div class="task-scroll">
             {% for task in results.Today_tasks %}
                 <div class="task-item">
-
+                    <div class="task-content">
+                        <span class="task-title">{{ task.title }}</span>
+                        <br>
+                        {% if task.description != None %}
+                            <span class="task-description">{{ task.description }}</span>
+                        {% endif %}
+                    </div>
                     <div class="icon-group">
                         <span class="material-symbols-outlined hover-pointer">edit</span>
                         <span class="icon-swap">
@@ -32,6 +38,13 @@
         <div class="task-scroll">
             {% for task in results.Upcoming_tasks %}
                 <div class="task-item">
+                    <div class="task-content">
+                        <span class="task-title">{{ task.title }}</span>
+                        <br>
+                        {% if task.description != None %}
+                            <span class="task-description">{{ task.description }}</span>
+                        {% endif %}
+                    </div>
                     <div class="icon-group">
                         <span class="material-symbols-outlined hover-pointer">edit</span>
                         <span class="icon-swap">
@@ -52,6 +65,13 @@
         <div class="task-scroll">
             {% for task in results.Ongoing_tasks %}
                 <div class="task-item">
+                    <div class="task-content">
+                        <span class="task-title">{{ task.title }}</span>
+                        <br>
+                        {% if task.description != None %}
+                            <span class="task-description">{{ task.description }}</span>
+                        {% endif %}
+                    </div>
                     <div class="icon-group">
                         <span class="material-symbols-outlined hover-pointer">edit</span>
                         <span class="icon-swap">

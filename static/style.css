@@ -144,10 +144,22 @@ body {
 .task-item {
     border: solid 1px;
     border-radius: 5px;
-    height: 20%;
+    height: auto;
+    min-height: 20%;
     width: 90%;
     margin: 20px auto;
     display: flex;
+    flex-direction: column;
+}
+
+.task-title {
+    margin: 0 auto auto 5px;
+    font-size: 1.3em;
+}
+
+.task-description {
+    margin: 0px auto auto 5px;
+    font-size: 1em;
 }
 
 .goals-container {
@@ -226,7 +238,6 @@ body {
     margin: auto 0 0 auto;
     display: flex;
     gap: 5px;
-    align-items: center;
 }
 
 .icon-swap {
