@@ -113,6 +113,10 @@ def home():
     return render_template('home.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
 
+@app.route("/today")
+def today():
+    return render_template('today.html')
+
 
 
 
