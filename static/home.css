@@ -1,4 +1,3 @@
-
 .task-container {
     display: flex;
     flex-direction: row;
@@ -95,6 +94,20 @@
     min-width: 240px;
     margin: auto;
     display: flex;
+    flex-direction: column;
+}
+
+.goal-title {
+    font-size: 1.8em;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.goal-description {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 1;
+    overflow-y: hidden;
 }
 
 .small-goals-title {
@@ -138,6 +151,14 @@
     width: 45%;
     margin-top: 5%;
     display: flex;
+    flex-direction: column;
+}
+
+.small-goal-title {
+    font-size: 1em;
+    font-weight: 550;
+    text-align: center;
+    overflow-y: hidden;
 }
 
 .icon-group {
@@ -165,4 +186,21 @@
 
 .hover-pointer {
     cursor: pointer;
+}
+
+.icon-swap:has(.add){
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.icon-swap:has(.add):hover {
+    background: #f0f0f0;
+    transition: background 0.5s;
+}
+
+.add {
+    text-align: center;
 }
