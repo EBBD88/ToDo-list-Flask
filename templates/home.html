@@ -8,7 +8,7 @@
 {% block body %}
 <div class="task-container">
     <div class="container">
-        <div class="main-tasks">ToDay</div>
+        <a href="{{ url_for('today') }}" style="text-decoration: none;"><div class="main-tasks">ToDay</div></a>
         <div class="task-scroll">
             {% for task in results.Today_tasks %}
                 <div class="task-item">
