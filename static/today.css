@@ -1,0 +1,128 @@
+body {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+.page-display {
+    width: 100%;
+    max-width: 1554px;
+    margin: 0 auto auto auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.page-display .header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+}
+
+.home-button,
+.datetime {
+    height: 7%;
+    margin: 0 20px;
+    padding: 0;
+    font-size: 1.8em;
+    display: inline;
+}
+
+.today-container {
+    width: 81.5%;
+    min-width: 870px;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+.tasks {
+    border-bottom: solid 1px;
+    height: auto;
+    min-height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tasks .complete {
+    margin: 20px auto auto auto;
+}
+
+.task-content {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.title-icons {
+    display: flex;
+    flex-direction: row;
+    margin: 15px 0 auto 15px;
+    align-items: center;
+}
+
+.title-icons .task-title {
+    font-size: 1.4em;
+}
+
+.title-icons .icon-group {
+    margin: auto 0 auto auto;
+    display: none;
+}
+
+.tasks:hover .title-icons .icon-group {
+    display: flex;
+}
+
+.description-datetime {
+    display: flex;
+    flex-direction: row;
+    margin: auto 0 10px 20px;
+}
+
+.description-datetime .task-datetime {
+    margin: auto 0 auto auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+.icon-group {
+    display: flex;
+    gap: 5px;
+}
+
+.icon-swap {
+    cursor: pointer;
+    display: flex;
+}
+
+.icon-swap .hover-icon {
+    display: none;
+}
+
+.icon-swap:hover .default-icon {
+    display: none;
+}
+
+.icon-swap:hover .hover-icon {
+  display: inline;
+}
+
+.hover-pointer {
+    cursor: pointer;
+}

@@ -10,6 +10,7 @@ app.secret_key = 'super_secret_key'
 
 DATABASE = 'todo_list.db'
 user_id = 1  # This should be dynamically set based on the logged-in user
+fake_date = "2025-08-20"
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -62,7 +63,8 @@ def home():
     user_local_datetime = session.get('user_local_datetime')
     if not user_local_date or not user_local_datetime:
         return redirect(url_for('runJS'))  # Ensure we have the local date and datetime
-    
+    user_local_date = fake_date
+
     today_tasks_sql = """ 
                           SELECT *
                           FROM Tasks
@@ -115,7 +117,26 @@ def home():
 
 @app.route("/today")
 def today():
-    return render_template('today.html')
+    user_local_date = session.get('user_local_date')
+    user_local_datetime = session.get('user_local_datetime')
+    if not user_local_date or not user_local_datetime:
+        return redirect(url_for('runJS'))
+    user_local_date = fake_date
+
+    today_tasks_sql = """ 
+                          SELECT *
+                          FROM Tasks
+                          WHERE date(start_time) = ?
+                          AND Tasks.user_id=?
+                          ORDER by start_time ASC;
+                      """
+    today_tasks_results = query_db(today_tasks_sql, [user_local_date, user_id])
+
+    results = {
+        'Today_tasks' : today_tasks_results
+    }
+
+    return render_template('today.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
 
 
