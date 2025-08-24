@@ -7,8 +7,8 @@
 
 
 {% block body %}
-{% if results.Today_tasks[0] %}
-    <div class="today-container">
+<div class="today-container">
+    {% if results.Today_tasks[0] %}
         {% for tasks in results.Today_tasks %}
             <div class="tasks">
                 <span class="icon-swap complete">
@@ -39,8 +39,22 @@
                 </div>
             </div>
         {% endfor %}
-    </div>
-{% else %}
-
-{% endif %}
+        <div class="add-task-today">
+            <span class="icon-swap">
+                <span class="material-symbols-outlined default-icon">add</span>
+                <span class="material-symbols-outlined hover-icon">add_circle</span>
+                <span>Add Task</span>
+            </span>
+        </div>
+    {% else %}
+       <div class="no-tasks">
+           <p>No tasks for today</p>
+            <span class="icon-swap">
+                <span class="material-symbols-outlined default-icon">add</span>
+                <span class="material-symbols-outlined hover-icon">add_circle</span>
+                <span>Add Task</span>
+             </span>
+       </div>
+    {% endif %}
+</div>
 {% endblock %}
