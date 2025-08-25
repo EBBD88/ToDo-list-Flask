@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="main-tasks">Upcoming</div>
+        <a href="{{ url_for('upcoming') }}" style="text-decoration: none;"><div class="main-tasks">Upcoming</div></a>
         <div class="task-scroll">
             {% for task in results.Upcoming_tasks %}
                 <div class="task-item">

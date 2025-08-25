@@ -114,26 +114,6 @@ def home():
     }
     return render_template('home.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
-@app.route("/upcoming")
-def upcoming():
-    user_local_date = session.get('user_local_date')
-    user_local_datetime = session.get('user_local_datetime')
-    if not user_local_date or not user_local_datetime:
-        return redirect(url_for('runJS'))  # Ensure we have the local date and datetime
-    user_local_date = fake_date
-
-    upcoming_tasks_sql = """
-                            SELECT *
-                            FROM Tasks
-                            WHERE date(start_time) BETWEEN Date(?, '+1 days') AND Date(?, '+7 days')
-                            AND user_id=?
-                            ORDER by start_time ASC;
-                         """
-    upcoming_tasks_results = query_db(upcoming_tasks_sql, [user_local_date,user_local_date,user_id])
-    results = {
-        'Upcoming_tasks' : upcoming_tasks_results
-    }
-    return render_template('upcoming.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
 @app.route("/today")
 def today():
@@ -158,7 +138,26 @@ def today():
 
     return render_template('today.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
+@app.route("/upcoming")
+def upcoming():
+    user_local_date = session.get('user_local_date')
+    user_local_datetime = session.get('user_local_datetime')
+    if not user_local_date or not user_local_datetime:
+        return redirect(url_for('runJS'))  # Ensure we have the local date and datetime
+    user_local_date = fake_date
 
+    upcoming_tasks_sql = """
+                            SELECT *
+                            FROM Tasks
+                            WHERE date(start_time) BETWEEN Date(?, '+1 days') AND Date(?, '+7 days')
+                            AND user_id=?
+                            ORDER by start_time ASC;
+                         """
+    upcoming_tasks_results = query_db(upcoming_tasks_sql, [user_local_date,user_local_date,user_id])
+    results = {
+        'Upcoming_tasks' : upcoming_tasks_results
+    }
+    return render_template('upcoming.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
 
 
