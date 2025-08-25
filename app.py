@@ -49,9 +49,12 @@ def receive_time():
         user_local_date = user_time_corrected.strftime('%Y-%m-%d')
         # Format as 'YYYY-MM-DD HH:MM:SS'
         user_local_datetime = user_time_corrected.strftime('%Y-%m-%d %H:%M:%S')
-        # Save both in session
+        # Format as 'Mon DD ‧ Day' for display
+        user_local_fancy = user_time_corrected.strftime('%b %d-%A')
+        # Save in session
         session['user_local_date'] = user_local_date
         session['user_local_datetime'] = user_local_datetime
+        session['user_local_fancy'] = user_local_fancy
     except Exception as e:
         return jsonify({'error': 'Invalid date format sent from client.'}), 400
     return jsonify({'status': 'success'})
@@ -63,7 +66,6 @@ def home():
     user_local_datetime = session.get('user_local_datetime')
     if not user_local_date or not user_local_datetime:
         return redirect(url_for('runJS'))  # Ensure we have the local date and datetime
-    user_local_date = fake_date
 
     today_tasks_sql = """ 
                           SELECT *
@@ -121,7 +123,6 @@ def today():
     user_local_datetime = session.get('user_local_datetime')
     if not user_local_date or not user_local_datetime:
         return redirect(url_for('runJS'))
-    user_local_date = fake_date
 
     today_tasks_sql = """ 
                           SELECT *
@@ -140,11 +141,11 @@ def today():
 
 @app.route("/upcoming")
 def upcoming():
+    user_local_fancy = session.get('user_local_fancy')
     user_local_date = session.get('user_local_date')
     user_local_datetime = session.get('user_local_datetime')
-    if not user_local_date or not user_local_datetime:
+    if not user_local_date or not user_local_datetime or not user_local_fancy:
         return redirect(url_for('runJS'))  # Ensure we have the local date and datetime
-    user_local_date = fake_date
 
     upcoming_tasks_sql = """
                             SELECT *
@@ -157,7 +158,21 @@ def upcoming():
     results = {
         'Upcoming_tasks' : upcoming_tasks_results
     }
-    return render_template('upcoming.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
+
+    # Use user_local_date (with year) for correct week calculation
+    user_date = datetime.strptime(user_local_date, '%Y-%m-%d')
+    monday = user_date - timedelta(days=user_date.weekday())
+    next_7_days = []
+    for i in range(7):
+        day = monday + timedelta(days=i)
+        if day.date() == user_date.date():
+            next_7_days.append(day.strftime('%b %d-') + 'Today')
+        elif day.date() == (user_date + timedelta(days=1)).date():
+            next_7_days.append(day.strftime('%b %d-') + 'Tomorrow')
+        else:
+            next_7_days.append(day.strftime('%b %d-%A'))
+
+    return render_template('upcoming.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime, user_local_fancy=user_local_fancy, next_7_days=next_7_days)
 
 
 
