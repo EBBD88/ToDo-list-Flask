@@ -10,7 +10,7 @@
     direction: ltr; /* Keep content left-to-right */
 }
 
-@media (max-width: 1120px) {
+@media (max-width: 1270px) {
     .sidebar {
         display: none;
     }
