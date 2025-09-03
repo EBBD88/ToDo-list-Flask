@@ -1,6 +1,6 @@
 .sidebar {
     width: 400px;
-    min-width: 250px;
+    min-width: 225px;
     border: solid 1px;
     overflow-y: auto;
     direction: rtl; /* Move scrollbar to the left */
