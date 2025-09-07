@@ -101,7 +101,7 @@ body {
 }
 
 .task-description {
-    margin: 0px auto auto 5px;
+    padding-left: 5px;
     font-size: 1em;
 }
 
