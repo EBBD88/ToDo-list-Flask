@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="{{url_for('static',filename='upcoming.css')}}">
 {% endblock %}
 
+{% block div_for_layout %}
+<div class="extra-display">
+{% endblock %}
+
 {% block body %}
     <span class="upcoming-title">Upcoming</span>
     <div class="under-title">
@@ -21,44 +25,46 @@
             <span class="material-symbols-outlined hover">chevron_forward</span>
         </span>
     </div>
-    <div class="upcoming-tasks">
-        {% for day, date in next_7_days %}
-            <div class="day">
-                <span class="date-upcoming">{{ day }}</span>
-                <div class="day-scroll">
-                    {% for task in results.Upcoming_tasks %}
-                        {% if task.start_time[:10].replace(':', '-') == date|string %}
-                            <div class="tasks">
-                                <div class="task-content">
-                                    <span class="task-title">{{ task.title }}</span>
-                                    <br>
-                                    {% if task.description %}
-                                        <span class="task-description">{{ task.description }}</span>
-                                    {% endif %}
-                                </div>
-                                <div class="icon-group">
-                                    <span class="material-symbols-outlined hover-pointer">edit</span>
-                                    <span class="icon-swap">
-                                        <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
-                                        <span class="material-symbols-outlined hover-icon">check_box</span>
-                                    </span>
-                                    <span class="icon-swap">
-                                        <span class="material-symbols-outlined default-icon">delete</span>
-                                        <span class="material-symbols-outlined hover-icon">delete_forever</span>
-                                    </span>
-                                </div>
+</div> <!-- Closing div aded to finish page-display div from layout.html -->
+<div class="upcoming-tasks">
+    {% for day, date in next_7_days %}
+        <div class="day">
+            <span class="date-upcoming">{{ day }}</span>
+            <div class="day-scroll">
+                {% for task in results.Upcoming_tasks %}
+                    {% if task.start_time[:10].replace(':', '-') == date|string %}
+                        <div class="tasks">
+                            <div class="task-content">
+                                <span class="task-title">{{ task.title }}</span>
+                                <br>
+                                {% if task.description %}
+                                    <span class="task-description">{{ task.description }}</span>
+                                {% endif %}
                             </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="add-task-upcoming">
-                    <span class="icon-swap">
-                        <span class="material-symbols-outlined default-icon">add</span>
-                        <span class="material-symbols-outlined hover-icon">add_circle</span>
-                        <span>Add Task</span>
-                    </span>
-                </div>
+                            <div class="icon-group">
+                                <span class="material-symbols-outlined hover-pointer">edit</span>
+                                <span class="icon-swap">
+                                    <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
+                                    <span class="material-symbols-outlined hover-icon">check_box</span>
+                                </span>
+                                <span class="icon-swap">
+                                    <span class="material-symbols-outlined default-icon">delete</span>
+                                    <span class="material-symbols-outlined hover-icon">delete_forever</span>
+                                </span>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             </div>
-        {% endfor %}
-    </div>
+            <div class="add-task-upcoming">
+                <span class="icon-swap">
+                    <span class="material-symbols-outlined default-icon">add</span>
+                    <span class="material-symbols-outlined hover-icon">add_circle</span>
+                    <span>Add Task</span>
+                </span>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+</div> <!-- Closing div aded to finish extra-display div from div-for-layout block -->
 {% endblock %}

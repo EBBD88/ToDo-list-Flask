@@ -1,5 +1,6 @@
 .sidebar {
     width: 400px;
+    flex-shrink: 0;
     min-width: 225px;
     border: solid 1px;
     overflow-y: auto;
