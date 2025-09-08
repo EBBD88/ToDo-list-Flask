@@ -150,7 +150,7 @@ def upcoming():
     upcoming_tasks_sql = """
                             SELECT *
                             FROM Tasks
-                            WHERE date(start_time) BETWEEN Date(?, '+1 days') AND Date(?, '+7 days')
+                            WHERE date(start_time) BETWEEN Date(?, '-7 days') AND Date(?, '+7 days')
                             AND user_id=?
                             ORDER by start_time ASC;
                          """
@@ -166,11 +166,11 @@ def upcoming():
     for i in range(7):
         day = monday + timedelta(days=i)
         if day.date() == user_date.date():
-            next_7_days.append(day.strftime('%b %d-') + 'Today')
+            next_7_days.append((day.strftime('%b %d-') + 'Today', day.strftime('%Y-%m-%d')))
         elif day.date() == (user_date + timedelta(days=1)).date():
-            next_7_days.append(day.strftime('%b %d-') + 'Tomorrow')
+            next_7_days.append((day.strftime('%b %d-') + 'Tomorrow', day.strftime('%Y-%m-%d')))
         else:
-            next_7_days.append(day.strftime('%b %d-%A'))
+            next_7_days.append((day.strftime('%b %d-%A'), day.strftime('%Y-%m-%d')))
 
     return render_template('upcoming.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime, user_local_fancy=user_local_fancy, next_7_days=next_7_days)
 
