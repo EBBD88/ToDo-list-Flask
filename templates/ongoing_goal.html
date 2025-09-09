@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+
+{% block links %}
+    <link rel="stylesheet" href="{{url_for('static',filename='ongoing_goal.css')}}">
+    {% block inner_links %}
+    {% endblock %}
+{% endblock %}
+
+{% block body %}
+    hello
+    {% block inner_body %}
+    {% endblock %}
+
+{% endblock %}

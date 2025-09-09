@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="main-tasks">Ongoing</div>
+        <a href="{{ url_for('ongoing') }}" style="text-decoration: none;"><div class="main-tasks">Ongoing</div></a>
         <div class="task-scroll">
             {% for task in results.Ongoing_tasks %}
                 <div class="task-item">

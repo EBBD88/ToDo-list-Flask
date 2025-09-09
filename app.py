@@ -174,8 +174,26 @@ def upcoming():
 
     return render_template('upcoming.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime, user_local_fancy=user_local_fancy, next_7_days=next_7_days)
 
-
-
+@app.route("/ongoing")
+def ongoing():
+    user_local_date = session.get('user_local_date')
+    user_local_datetime = session.get('user_local_datetime')
+    if not user_local_date or not user_local_datetime:
+        return redirect(url_for('runJS'))
+    
+    ongoing_tasks_sql = """
+                            SELECT *
+                            FROM tasks
+                            WHERE start_time < ?
+                            AND completed = 0
+                            AND user_id = ?
+                            ORDER BY finish_time DESC;
+                        """
+    ongoing_tasks_results = query_db(ongoing_tasks_sql, [user_local_datetime,user_id])
+    results = {
+        'Ongoing_tasks' : ongoing_tasks_results
+    }
+    return render_template('ongoing.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
 if __name__=="__main__":
     app.run(debug=True)
