@@ -139,6 +139,7 @@ def today():
 
     return render_template('today.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
+
 @app.route("/upcoming")
 def upcoming():
     user_local_fancy = session.get('user_local_fancy')
@@ -174,6 +175,7 @@ def upcoming():
 
     return render_template('upcoming.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime, user_local_fancy=user_local_fancy, next_7_days=next_7_days)
 
+
 @app.route("/ongoing")
 def ongoing():
     user_local_date = session.get('user_local_date')
@@ -194,6 +196,31 @@ def ongoing():
         'Ongoing_tasks' : ongoing_tasks_results
     }
     return render_template('ongoing.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
+
+
+@app.route("/goals")
+def goals():
+    user_local_date = session.get('user_local_date')
+    user_local_datetime = session.get('user_local_datetime')
+    if not user_local_date or not user_local_datetime:
+        return redirect(url_for('runJS'))
+
+    goals_sql = """
+                    SELECT *
+                    FROM Goals
+                    WHERE completed = 0
+                    AND user_id = ?
+                    ORDER BY importance desc;
+                """
+    goal_results = query_db(goals_sql, [user_id])
+    results = {
+        'Goals' : goal_results
+    }
+    return render_template('goals.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
+
+
+
+
 
 if __name__=="__main__":
     app.run(debug=True)
