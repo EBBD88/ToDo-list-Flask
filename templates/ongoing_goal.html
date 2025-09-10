@@ -8,7 +8,10 @@
 {% endblock %}
 
 {% block body %}
-    hello
+    <nav class="w3-bar w3-grey">
+        <a href="{{ url_for('ongoing') }}" class="w3-bar-item w3-button">Ongoing</a>
+        <a href="{{ url_for('goals') }}" class="w3-bar-item w3-button">Goals</a>
+    </nav>
     {% block inner_body %}
     {% endblock %}
 
