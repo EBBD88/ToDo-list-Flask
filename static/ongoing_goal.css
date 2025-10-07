@@ -3,7 +3,6 @@ body {
     flex-direction: row;
     margin: 0;
     padding: 0;
-    min-height: 820px;
     height: 100vh;
     overflow-x: auto;
 }
@@ -11,10 +10,9 @@ body {
 .page-display {
     width: 100%;
     max-width: 1554px;
-    min-width: 870px;
+    min-width: 920px;
     margin: 0 auto auto auto;
     height: 100%;
-    max-height: 830px;
     display: flex;
     flex-direction: column;
 }
@@ -34,4 +32,52 @@ body {
     padding: 0;
     font-size: 1.8em;
     display: inline;
+}
+
+.w3-bar {
+    height: 40px;
+}
+
+.icon-group {
+    margin: auto 0 0 auto;
+    display: flex;
+    gap: 5px;
+}
+
+.icon-swap {
+    cursor: pointer;
+    display: flex;
+}
+
+.icon-swap .hover-icon {
+    display: none;
+}
+
+.icon-swap:hover .default-icon {
+    display: none;
+}
+
+.icon-swap:hover .hover-icon {
+  display: inline;
+}
+
+.hover-pointer {
+    cursor: pointer;
+}
+
+.icon-swap:has(.add){
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.icon-swap:has(.add):hover {
+    background: #f0f0f0;
+    transition: background 0.5s;
+}
+
+.add {
+    text-align: center;
 }
