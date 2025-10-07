@@ -1,3 +1,77 @@
-.test {
-    color: red;
+.ongoing-layout{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-around;
+    min-height: 0; /* this makes shure that the parent doesn't flex */
 }
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 23%;
+    min-width: 290px;
+} 
+
+.change{
+    display: none;
+}
+
+.week {
+    display: flex;
+}
+
+.title-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px black;
+    border-radius: 25px;
+    margin: 10px 0 10px 0;
+    min-height: 50px;
+    font-size: 1.6em;
+}
+.scroll-tasks {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background-color: white;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.scroll-tasks::-webkit-scrollbar  {
+    display: none;
+}
+
+.tasks {
+    border: solid 1px;
+    border-radius: 5px;
+    height: auto;
+    min-height: 120px;
+    width: 100%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-title {
+    margin: 0 auto auto 5px;
+    font-size: 1.3em;
+}
+
+.task-description {
+    padding-left: 5px;
+    font-size: 1em;
+}
+
+
+
+
+
+
+
+
+
+
