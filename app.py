@@ -195,7 +195,20 @@ def ongoing():
     results = {
         'Ongoing_tasks' : ongoing_tasks_results
     }
-    return render_template('ongoing.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
+
+    user_date = datetime.strptime(user_local_date, '%Y-%m-%d')
+    monday = user_date - timedelta(days=user_date.weekday())
+    week_days = []
+    for i in range(7):
+        day = monday + timedelta(days=i)
+        if day.date() == user_date.date():
+            week_days.append((day.strftime('%b %d-') + 'Today', day.strftime('%Y-%m-%d')))
+        elif day.date() == (user_date + timedelta(days=1)).date():
+            week_days.append((day.strftime('%b %d-') + 'Tomorrow', day.strftime('%Y-%m-%d')))
+        else:
+            week_days.append((day.strftime('%b %d-%A'), day.strftime('%Y-%m-%d')))
+
+    return render_template('ongoing.html', results=results, fake_date=fake_date, user_local_date=user_local_date, user_local_datetime=user_local_datetime, week_days=week_days)
 
 
 @app.route("/goals")
