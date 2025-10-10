@@ -232,8 +232,49 @@ def goals():
     return render_template('goals.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
 
+@app.route("/completed_tasks")
+def completed_tasks():
+    user_local_date = session.get('user_local_date')
+    user_local_datetime = session.get('user_local_datetime')
+    if not user_local_date or not user_local_datetime:
+        return redirect(url_for('runJS'))
+    
+    completed_tasks_sql = """
+                            SELECT *
+                            FROM Tasks
+                            WHERE user_id = ?
+                            AND completed = 1
+                            ORDER BY finish_time DESC;
+                          """
+    compepted_tasks_results = query_db(completed_tasks_sql, [user_id])
 
+    results = {
+        'Completed_tasks' : compepted_tasks_results,
+    }
 
+    return render_template('completed_tasks.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
+
+@app.route("/completed_goals")
+def completed_goals():
+    user_local_date = session.get('user_local_date')
+    user_local_datetime = session.get('user_local_datetime')
+    if not user_local_date or not user_local_datetime:
+        return redirect(url_for('runJS'))
+    
+    completed_goals_sql = """
+                            SELECT *
+                            FROM Goals
+                            WHERE user_id = ?
+                            AND completed = 1
+                            ORDER BY finish_time DESC;
+                          """
+    completed_goals_results = query_db(completed_goals_sql, [user_id])
+
+    results = {
+        'Completed_goals' : completed_goals_results,
+    }
+
+    return render_template('completed_goals.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
 if __name__=="__main__":
     app.run(debug=True)
