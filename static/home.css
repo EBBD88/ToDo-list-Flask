@@ -8,6 +8,10 @@ body {
     overflow-x: auto;
 }
 
+body::-webkit-scrollbar  {
+    display: none;
+}
+
 .page-display {
     width: 100%;
     max-width: 1554px;
