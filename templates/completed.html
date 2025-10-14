@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 
+
 {% block links %}
     <link rel="stylesheet" href="{{url_for('static',filename='completed.css')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
@@ -7,10 +8,10 @@
 
 {% block body %}
     <nav class="w3-bar w3-grey">
-        <a href="{{ url_for('completed_tasks') }}" class="w3-bar-item w3-button">Ongoing</a>
+        <a href="{{ url_for('completed_tasks') }}" class="w3-bar-item w3-button">tasks</a>
         <a href="{{ url_for('completed_goals') }}" class="w3-bar-item w3-button">Goals</a>
     </nav>
-    {% block iner_body %}
+    {% block inner_body %}
     {% endblock %}
 
 {% endblock %}

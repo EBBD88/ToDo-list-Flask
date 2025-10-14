@@ -3,17 +3,18 @@ body {
     flex-direction: row;
     margin: 0;
     padding: 0;
+    min-height: 820px;
     height: 100vh;
 }
 
 .page-display {
     width: 100%;
     max-width: 1554px;
+    min-width: 920px;
     margin: 0 auto auto auto;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
 }
 
 .page-display .header {
@@ -32,6 +33,42 @@ body {
     font-size: 1.8em;
     display: inline;
 }
+.w3-bar {
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    flex-direction: column;
+    align-self: center;
+    overflow-y: auto;
+}
+
+.container::-webkit-scrollbar  {
+    display: none;
+}
+
+.complet {
+    border-bottom: solid 1px;
+    height: auto;
+    min-height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.completed {
+    margin: 20px auto auto auto;
+}
+
+.content {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
 
 .title-icons {
     display: flex;
@@ -40,7 +77,39 @@ body {
     align-items: center;
 }
 
+.title-icons .title {
+    font-size: 1.4em;
+}
+
+.title-icons .icon-group {
+    margin: 0 0 auto auto;
+    display: none;
+}
+
+.complet:hover .title-icons .icon-group {
+    display: flex;
+}
+
+.description-datetime {
+    display: flex;
+    flex-direction: row;
+    margin: auto 0 10px 20px;
+}
+
+.no-goals {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-goals p {
+    font-size: 2em;
+}
+
 .icon-group {
+    margin: auto 0 0 auto;
     display: flex;
     gap: 5px;
 }
@@ -66,4 +135,19 @@ body {
     cursor: pointer;
 }
 
+.icon-swap:has(.add){
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
+.icon-swap:has(.add):hover {
+    background: #f0f0f0;
+    transition: background 0.5s;
+}
+
+.add {
+    text-align: center;
+}
