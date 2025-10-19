@@ -276,5 +276,95 @@ def completed_goals():
 
     return render_template('completed_goals.html', results=results, user_local_date=user_local_date, user_local_datetime=user_local_datetime)
 
+# Route for testing dynamic tasks like the Tests example
+@app.route('/test_tasks')
+def test_tasks():
+    db = get_db()
+    tasks = query_db('SELECT * FROM Tasks WHERE user_id=? AND completed=0 ORDER BY task_id DESC', [user_id])
+    return render_template('test_tasks.html', tasks=tasks)
+
+@app.route('/test_add_task', methods=['POST'])
+def test_add_task():
+    data = request.get_json()
+    title = data.get('title')
+    description = data.get('description', '')
+    start_time = data.get('start_time')
+    all_day = int(data.get('all_day', 0))
+
+    if not title: return jsonify({"error": "Title is required"}), 400
+    if not start_time: return jsonify({"error": "Start time is required"}), 400
+
+    try:
+        if all_day:
+            # Only date is allowed
+            start_time_formatted = datetime.fromisoformat(start_time).strftime('%Y-%m-%d')
+        else:
+            # Full datetime
+            start_time_formatted = datetime.fromisoformat(start_time).strftime('%Y-%m-%d %H:%M:%S')
+    except Exception:
+        return jsonify({"error": "Invalid start time format"}), 400
+
+    db = get_db()
+    cursor = db.execute(
+        'INSERT INTO Tasks (user_id, title, description, start_time, all_day) VALUES (?, ?, ?, ?, ?)',
+        (user_id, title, description, start_time_formatted, all_day)
+    )
+    db.commit()
+    new_task_id = cursor.lastrowid
+
+    return jsonify({
+        "task_id": new_task_id,
+        "title": title,
+        "description": description,
+        "start_time": start_time_formatted,
+        "all_day": all_day
+    }), 201
+
+
+@app.route('/test_delete_task/<int:task_id>', methods=['POST'])
+def test_delete_task(task_id):
+    db = get_db()
+    db.execute('DELETE FROM Tasks WHERE task_id = ? AND user_id = ?', (task_id, user_id))
+    db.commit()
+    return jsonify({"message": f"Task {task_id} deleted"}), 200
+
+
+@app.route('/test_complete_task/<int:task_id>', methods=['POST'])
+def test_complete_task(task_id):
+    db = get_db()
+    db.execute('UPDATE Tasks SET completed = 1 WHERE task_id = ?', (task_id,))
+    db.commit()
+    return jsonify({"message": f"Task {task_id} marked as completed"}), 200
+
+
+@app.route('/test_update_task/<int:task_id>', methods=['POST'])
+def test_update_task(task_id):
+    data = request.get_json()
+    title = data.get('title')
+    description = data.get('description', '')
+    start_time = data.get('start_time')
+    all_day = data.get('all_day', 0)
+
+    if not title or not start_time:
+        return jsonify({"error": "Title and start_time required"}), 400
+
+    db = get_db()
+    db.execute("""
+        UPDATE Tasks
+        SET title = ?, description = ?, start_time = ?, all_day = ?
+        WHERE task_id = ?
+    """, (title, description, start_time, all_day, task_id))
+    db.commit()
+
+    return jsonify({
+        "task_id": task_id,
+        "title": title,
+        "description": description,
+        "start_time": start_time,
+        "all_day": all_day
+    }), 200
+
+
+
 if __name__=="__main__":
     app.run(debug=True)

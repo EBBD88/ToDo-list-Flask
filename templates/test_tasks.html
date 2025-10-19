@@ -1,0 +1,170 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<h1>Test Tasks Page</h1>
+
+<!-- Button to open Add Task modal -->
+<button onclick="openAddTaskModal()">+ Add Task</button>
+
+<!-- Task list -->
+<ul id="task-list">
+  {% for task in tasks %}
+  <li id="task-{{ task['task_id'] }}">
+    <strong>{{ task['title'] }}</strong> — {{ task['description'] }} — {{ task['start_time'] }} {% if task['all_day'] %}(All Day){% endif %}
+    {% if not task['completed'] %}
+      <button onclick='openEditModal({{ task["task_id"] }}, {{ task["title"]|tojson }}, {{ task["description"]|tojson }}, {{ task["start_time"]|tojson }}, {{ task["all_day"]|tojson }})'>Modify</button>
+      <button onclick="completeTask({{ task['task_id'] }})">Complete</button>
+    {% endif %}
+    <button onclick="confirmDeleteTask({{ task['task_id'] }})">Delete</button>
+  </li>
+  {% endfor %}
+</ul>
+
+<!-- Add Task Modal -->
+<div id="addTaskModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5);">
+  <div style="background:#fff; padding:20px; max-width:400px; margin:100px auto; border-radius:10px; text-align:center;">
+    <h3>Add New Task</h3>
+    <input id="newTaskTitle" type="text" placeholder="Title" style="width:90%; margin:5px;"><br>
+    <textarea id="newTaskDesc" placeholder="Description" style="width:90%; margin:5px;"></textarea><br>
+    <label><input type="checkbox" id="newTaskAllDay" onchange="toggleAllDay('new')"> All Day</label><br>
+    <input id="newTaskStart" type="datetime-local" style="width:90%; margin:5px;"><br>
+    <button onclick="addTask()">Add</button>
+    <button onclick="closeAddTaskModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- Edit Task Modal -->
+<div id="editTaskModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5);">
+  <div style="background:#fff; padding:20px; max-width:400px; margin:100px auto; border-radius:10px; text-align:center;">
+    <h3>Edit Task</h3>
+    <input id="editTaskTitle" type="text" placeholder="Title" style="width:90%; margin:5px;"><br>
+    <textarea id="editTaskDesc" placeholder="Description" style="width:90%; margin:5px;"></textarea><br>
+    <label><input type="checkbox" id="editTaskAllDay" onchange="toggleAllDay('edit')"> All Day</label><br>
+    <input id="editTaskStart" type="datetime-local" style="width:90%; margin:5px;"><br>
+    <button onclick="saveTaskChanges()">Save</button>
+    <button onclick="closeEditTaskModal()">Cancel</button>
+  </div>
+</div>
+
+<script>
+  let editingTaskId = null;
+
+  function openAddTaskModal() {
+    document.getElementById('addTaskModal').style.display = 'block';
+  }
+
+  function closeAddTaskModal() {
+    document.getElementById('addTaskModal').style.display = 'none';
+  }
+
+  function openEditModal(id, title, description, startTime, allDay) {
+    editingTaskId = id;
+    document.getElementById('editTaskTitle').value = title;
+    document.getElementById('editTaskDesc').value = description;
+    const startInput = document.getElementById('editTaskStart');
+    const checkbox = document.getElementById('editTaskAllDay');
+
+    if (allDay) {
+      checkbox.checked = true;
+      startInput.type = 'date';
+      startInput.value = startTime.split('T')[0];
+    } else {
+      checkbox.checked = false;
+      startInput.type = 'datetime-local';
+      startInput.value = startTime.replace(' ', 'T');
+    }
+
+    document.getElementById('editTaskModal').style.display = 'block';
+  }
+
+  function closeEditTaskModal() {
+    document.getElementById('editTaskModal').style.display = 'none';
+  }
+
+  function toggleAllDay(prefix) {
+    const checkbox = document.getElementById(`${prefix}TaskAllDay`);
+    const startInput = document.getElementById(`${prefix}TaskStart`);
+    if (checkbox.checked) {
+      const current = startInput.value;
+      startInput.type = 'date';
+      if (current.includes('T')) startInput.value = current.split('T')[0];
+    } else {
+      startInput.type = 'datetime-local';
+    }
+  }
+
+  async function addTask() {
+    const title = document.getElementById('newTaskTitle').value.trim();
+    const description = document.getElementById('newTaskDesc').value.trim() || '';
+    const startTime = document.getElementById('newTaskStart').value;
+    const allDay = document.getElementById('newTaskAllDay').checked ? 1 : 0;
+    if (!title) return alert('Title is required.');
+    if (!startTime) return alert('Start time is required.');
+
+    const response = await fetch('/test_add_task', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ title, description, start_time: startTime, all_day: allDay })
+    });
+
+    if (response.ok) {
+      const newTask = await response.json();
+      const li = document.createElement('li');
+      li.id = `task-${newTask.task_id}`;
+      li.innerHTML = `<strong>${newTask.title}</strong> — ${newTask.description} — ${newTask.start_time} ${newTask.all_day ? '(All Day)' : ''}
+                      <button onclick="openEditModal(${newTask.task_id}, '${newTask.title}', '${newTask.description}', '${newTask.start_time}', ${newTask.all_day})">Modify</button>
+                      <button onclick="completeTask(${newTask.task_id})">Complete</button>
+                      <button onclick="confirmDeleteTask(${newTask.task_id})">Delete</button>`;
+      document.getElementById('task-list').appendChild(li);
+      closeAddTaskModal();
+      document.getElementById('newTaskTitle').value = '';
+      document.getElementById('newTaskDesc').value = '';
+      document.getElementById('newTaskStart').value = '';
+      document.getElementById('newTaskAllDay').checked = false;
+      toggleAllDay('new');
+    } else alert('Failed to add task.');
+  }
+
+  async function saveTaskChanges() {
+    const title = document.getElementById('editTaskTitle').value.trim();
+    const description = document.getElementById('editTaskDesc').value.trim() || '';
+    const startTime = document.getElementById('editTaskStart').value;
+    const allDay = document.getElementById('editTaskAllDay').checked ? 1 : 0;
+
+    if (!title) return alert('Title is required.');
+    if (!startTime) return alert('Start time is required.');
+
+    const response = await fetch(`/test_update_task/${editingTaskId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, description, start_time: startTime, all_day: allDay })
+    });
+
+    if (response.ok) {
+      const updated = await response.json();
+      const li = document.getElementById(`task-${editingTaskId}`);
+      li.innerHTML = `<strong>${updated.title}</strong> — ${updated.description} — ${updated.start_time} ${updated.all_day ? '(All Day)' : ''}
+                      <button onclick="openEditModal(${updated.task_id}, '${updated.title}', '${updated.description}', '${updated.start_time}', ${updated.all_day})">Modify</button>
+                      <button onclick="completeTask(${updated.task_id})">Complete</button>
+                      <button onclick="confirmDeleteTask(${updated.task_id})">Delete</button>`;
+      closeEditTaskModal();
+    } else {
+      alert('Failed to update task.');
+    }
+  }
+
+  async function confirmDeleteTask(taskId) {
+    if (confirm('Are you sure you want to delete this task?')) {
+      const response = await fetch(`/test_delete_task/${taskId}`, { method: 'POST' });
+      if (response.ok) document.getElementById(`task-${taskId}`).remove();
+      else alert('Failed to delete task.');
+    }
+  }
+
+  async function completeTask(taskId) {
+    const response = await fetch(`/test_complete_task/${taskId}`, { method: 'POST' });
+    if (response.ok) document.getElementById(`task-${taskId}`).remove();
+    else alert('Failed to mark task as completed.');
+  }
+</script>
+
+{% endblock %}
