@@ -18,7 +18,7 @@
             </div>
         </a>
         <div class="add-task">
-            <a href="" class="add-task-button">+</a>
+            <button onclick="openAddTaskModal()" class="add-task-button">+</button>
             <h3>Add Task button</h3>
         </div>
         <div>
@@ -44,5 +44,21 @@
     {% block body %}
     {% endblock %}
     </div>
+
+    <!-- Add Task Modal -->
+    <div id="addTaskModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5);">
+        <div style="background:#fff; padding:20px; max-width:400px; margin:100px auto; border-radius:10px; text-align:center;">
+            <h3>Add New Task</h3>
+            <input id="newTaskTitle" type="text" placeholder="Title" style="width:90%; margin:5px;"><br>
+            <textarea id="newTaskDesc" placeholder="Description" style="width:90%; margin:5px;"></textarea><br>
+            <label><input type="checkbox" id="newTaskAllDay" onchange="toggleAllDay('new')"> All Day</label><br>
+            <input id="newTaskStart" type="datetime-local" style="width:90%; margin:5px;"><br>
+            <button onclick="addTask()">Add</button>
+            <button onclick="closeAddTaskModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='task_manage.js') }}" defer></script>
+
 </body>
 </html>
