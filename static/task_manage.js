@@ -72,10 +72,6 @@ async function addTask() {
       <button onclick="confirmDeleteTask(${newTask.task_id})">Delete</button>
     `;
 
-    // ✅ Append only if visible list exists
-    const list = document.getElementById('task-list');
-    if (list) list.appendChild(li);
-
     // ✅ Always close modal and reset fields
     closeAddTaskModal();
     document.getElementById('newTaskTitle').value = '';
@@ -86,7 +82,7 @@ async function addTask() {
 
     // ✅ Refresh the page to show updated data everywhere
     location.reload();
-    
+
   } else {
     alert('Failed to add task.');
   }
