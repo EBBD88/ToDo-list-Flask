@@ -10,23 +10,23 @@
 <div class="today-container">
     {% if results.Today_tasks[0] %}
         {% for tasks in results.Today_tasks %}
-            <div class="tasks">
+            <div class="tasks" id="task-{{ tasks['task_id'] }}">
                 <span class="icon-swap complete">
                     <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
-                    <span class="material-symbols-outlined hover-icon">check_box</span>
+                    <span class="material-symbols-outlined hover-icon" onclick="completeTask({{ tasks['task_id'] }})">check_box</span>
                 </span>
                 <div class="task-content">
                     <div class="title-icons">
                         <span class="task-title">{{ tasks.title }}</span>
                         <div class="icon-group">
-                            <span class="material-symbols-outlined hover-pointer">edit</span>
+                            <span class="material-symbols-outlined hover-pointer" onclick='openEditModal({{ tasks["task_id"] }}, {{ tasks["title"]|tojson }}, {{ tasks["description"]|tojson }}, {{ tasks["start_time"]|tojson }}, {{ tasks["all_day"]|tojson }})'>edit</span>
                             <span class="icon-swap">
                                 <span class="material-symbols-outlined default-icon">calendar_today</span>
                                 <span class="material-symbols-outlined hover-icon">Calendar_month</span>
                             </span>
                             <span class="icon-swap">
                                 <span class="material-symbols-outlined default-icon">delete</span>
-                                <span class="material-symbols-outlined hover-icon">delete_forever</span>
+                                <span class="material-symbols-outlined hover-icon" onclick="confirmDeleteTask({{ tasks['task_id'] }})">delete_forever</span>
                             </span>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                 </div>
             </div>
         {% endfor %}
-        <div class="add-task-today">
+        <div class="add-task-today" onclick="openAddTaskModal()">
             <span class="icon-swap">
                 <span class="material-symbols-outlined default-icon">add</span>
                 <span class="material-symbols-outlined hover-icon">add_circle</span>
@@ -49,7 +49,7 @@
     {% else %}
        <div class="no-tasks">
            <p>No tasks for today</p>
-            <span class="icon-swap">
+            <span class="icon-swap" onclick="openAddTaskModal()">
                 <span class="material-symbols-outlined default-icon">add</span>
                 <span class="material-symbols-outlined hover-icon">add_circle</span>
                 <span>Add Task</span>

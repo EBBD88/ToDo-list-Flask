@@ -91,9 +91,15 @@ async function addTask() {
 async function saveTaskChanges() {
   const title = document.getElementById('editTaskTitle').value.trim();
   const description = document.getElementById('editTaskDesc').value.trim() || '';
-  const startTime = document.getElementById('editTaskStart').value;
+  let startTime = document.getElementById('editTaskStart').value;
   const allDay = document.getElementById('editTaskAllDay').checked ? 1 : 0;
 
+
+  // ✅ Convert to correct DB format
+  if (!allDay) {
+    startTime = startTime.replace('T', ' ') + ':00';
+  }
+  
   if (!title) return alert('Title is required.');
   if (!startTime) return alert('Start time is required.');
 
@@ -116,6 +122,8 @@ async function saveTaskChanges() {
         <button onclick="completeTask(${updated.task_id})">Complete</button>
         <button onclick="confirmDeleteTask(${updated.task_id})">Delete</button>
       `;
+      // ✅ Refresh the page to show updated data everywhere
+      location.reload();
     }
 
     closeEditTaskModal();
@@ -128,8 +136,9 @@ async function confirmDeleteTask(taskId) {
   if (confirm('Are you sure you want to delete this task?')) {
     const response = await fetch(`/test_delete_task/${taskId}`, { method: 'POST' });
     if (response.ok) {
-      const li = document.getElementById(`task-${taskId}`);
-      if (li) li.remove();
+      // Select *all* elements that match the same task ID across lists
+      const taskElements = document.querySelectorAll(`[id='task-${taskId}']`);
+      taskElements.forEach(el => el.remove());
     } else {
       alert('Failed to delete task.');
     }
@@ -139,8 +148,8 @@ async function confirmDeleteTask(taskId) {
 async function completeTask(taskId) {
   const response = await fetch(`/test_complete_task/${taskId}`, { method: 'POST' });
   if (response.ok) {
-    const li = document.getElementById(`task-${taskId}`);
-    if (li) li.remove(); // ✅ only remove if visible
+    const taskElements = document.querySelectorAll(`[id='task-${taskId}']`);
+    taskElements.forEach(el => el.remove());
   } else {
     alert('Failed to mark task as completed.');
   }

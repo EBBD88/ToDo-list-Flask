@@ -71,6 +71,7 @@ def home():
                           SELECT *
                           FROM Tasks
                           WHERE date(start_time) = ?
+                          AND completed = 0
                           AND Tasks.user_id=?
                           ORDER by start_time ASC;
                       """
@@ -81,6 +82,7 @@ def home():
                             FROM Tasks
                             WHERE date(start_time) BETWEEN Date(?, '+1 days') AND Date(?, '+7 days')
                             AND user_id=?
+                            AND completed = 0
                             ORDER by start_time ASC;
                          """
     upcoming_tasks_results = query_db(upcoming_tasks_sql, [user_local_date,user_local_date,user_id])
@@ -129,6 +131,7 @@ def today():
                           FROM Tasks
                           WHERE date(start_time) = ?
                           AND Tasks.user_id=?
+                          AND completed = 0
                           ORDER by start_time ASC;
                       """
     today_tasks_results = query_db(today_tasks_sql, [user_local_date, user_id])
@@ -153,6 +156,7 @@ def upcoming():
                             FROM Tasks
                             WHERE date(start_time) BETWEEN Date(?, '-7 days') AND Date(?, '+7 days')
                             AND user_id=?
+                            AND completed = 0
                             ORDER by start_time ASC;
                          """
     upcoming_tasks_results = query_db(upcoming_tasks_sql, [user_local_date,user_local_date,user_id])
