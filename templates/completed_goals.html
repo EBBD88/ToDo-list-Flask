@@ -1,7 +1,8 @@
 {% extends "completed.html" %}
 
 {% block inner_body %}
-    <div class="container">
+    <div class="container upcomingUpd">
+        <span class="text">Upcoming features</span>
         {% if results.Completed_goals %}
             {% for complet in results.Completed_goals %}
                 <div class="complet">
