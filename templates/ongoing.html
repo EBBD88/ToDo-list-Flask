@@ -43,6 +43,7 @@
             <div class="scroll-tasks">
                 {% for day, date in week_days %}
                     {{ day }}
+                    <br>
                     {% for tasks in results.Ongoing_tasks %}
                         {% if tasks.start_time[:10].replace(':', '-') ==  date|string %}
                             <div class="tasks" id="task-{{ tasks['task_id'] }}">

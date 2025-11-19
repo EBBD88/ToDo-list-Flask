@@ -248,7 +248,7 @@ def completed_tasks():
                             FROM Tasks
                             WHERE user_id = ?
                             AND completed = 1
-                            ORDER BY finish_time DESC;
+                            ORDER BY start_time DESC;
                           """
     compepted_tasks_results = query_db(completed_tasks_sql, [user_id])
 
