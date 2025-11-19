@@ -148,6 +148,16 @@ body {
     transition: background 0.5s;
 }
 
+.description-datetime {
+    display: flex;
+    flex-direction: row;
+    margin: auto 0 10px 20px;
+}
+
+.description-datetime .task-datetime {
+    margin: auto 0 auto auto;
+}
+
 .add {
     text-align: center;
 }

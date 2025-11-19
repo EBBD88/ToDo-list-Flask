@@ -42,6 +42,7 @@
                                 {% endif %}
                             </div>
                             <div class="icon-group">
+                                <span>{{ task.start_time }}</span>
                                 <span class="material-symbols-outlined hover-pointer" onclick='openEditModal({{ task["task_id"] }}, {{ task["title"]|tojson }}, {{ task["description"]|tojson }}, {{ task["start_time"]|tojson }}, {{ task["all_day"]|tojson }})'>edit</span>
                                 <span class="icon-swap">
                                     <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>

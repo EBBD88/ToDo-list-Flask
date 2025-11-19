@@ -22,6 +22,7 @@
                                 {% endif %}
                             </div>
                             <div class="icon-group">
+                                <span>{{ tasks.start_time }}</span>
                                 <span class="material-symbols-outlined hover-pointer" onclick='openEditModal({{ tasks["task_id"] }}, {{ tasks["title"]|tojson }}, {{ tasks["description"]|tojson }}, {{ tasks["start_time"]|tojson }}, {{ tasks["all_day"]|tojson }})'>edit</span>
                                 <span class="icon-swap">
                                     <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
@@ -53,6 +54,7 @@
                                     {% endif %}
                                 </div>
                                 <div class="icon-group">
+                                    <span>{{ tasks.start_time }}</span>
                                     <span class="material-symbols-outlined hover-pointer" onclick='openEditModal({{ tasks["task_id"] }}, {{ tasks["title"]|tojson }}, {{ tasks["description"]|tojson }}, {{ tasks["start_time"]|tojson }}, {{ tasks["all_day"]|tojson }})'>edit</span>
                                     <span class="icon-swap">
                                         <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
@@ -89,6 +91,7 @@
                                 {% endif %}
                             </div>
                             <div class="icon-group">
+                                <span>{{ tasks.start_time }}</span>
                                 <span class="material-symbols-outlined hover-pointer" onclick='openEditModal({{ tasks["task_id"] }}, {{ tasks["title"]|tojson }}, {{ tasks["description"]|tojson }}, {{ tasks["start_time"]|tojson }}, {{ tasks["all_day"]|tojson }})'>edit</span>
                                 <span class="icon-swap">
                                     <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>

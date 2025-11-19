@@ -20,14 +20,15 @@
                         {% endif %}
                     </div>
                     <div class="icon-group">
-                        <span class="material-symbols-outlined hover-pointer" onclick='openEditModal({{ task["task_id"] }}, {{ task["title"]|tojson }}, {{ task["description"]|tojson }}, {{ task["start_time"]|tojson }}, {{ task["all_day"]|tojson }})'>edit</span>
+                        <span>{{ task.start_time }}</span>
+                        <span class="material-symbols-outlined hover-pointer" title="Edit Task" onclick='openEditModal({{ task["task_id"] }}, {{ task["title"]|tojson }}, {{ task["description"]|tojson }}, {{ task["start_time"]|tojson }}, {{ task["all_day"]|tojson }})'>edit</span>
                         <span class="icon-swap">
                             <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
-                            <span class="material-symbols-outlined hover-icon" onclick="completeTask({{ task['task_id'] }})">check_box</span>
+                            <span class="material-symbols-outlined hover-icon" title="Set task as completed" onclick="completeTask({{ task['task_id'] }})">check_box</span>
                         </span>
                         <span class="icon-swap">
                             <span class="material-symbols-outlined default-icon">delete</span>
-                            <span class="material-symbols-outlined hover-icon" onclick="confirmDeleteTask({{ task['task_id'] }})">delete_forever</span>
+                            <span class="material-symbols-outlined hover-icon" title="Delete Task" onclick="confirmDeleteTask({{ task['task_id'] }})">delete_forever</span>
                         </span>
                     </div>
                 </div>
@@ -47,14 +48,15 @@
                         {% endif %}
                     </div>
                     <div class="icon-group">
-                        <span class="material-symbols-outlined hover-pointer" onclick='openEditModal({{ task["task_id"] }}, {{ task["title"]|tojson }}, {{ task["description"]|tojson }}, {{ task["start_time"]|tojson }}, {{ task["all_day"]|tojson }})'>edit</span>
+                        <span>{{ task.start_time }}</span>
+                        <span class="material-symbols-outlined hover-pointer" title="Edit Task" onclick='openEditModal({{ task["task_id"] }}, {{ task["title"]|tojson }}, {{ task["description"]|tojson }}, {{ task["start_time"]|tojson }}, {{ task["all_day"]|tojson }})'>edit</span>
                         <span class="icon-swap">
                             <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
-                            <span class="material-symbols-outlined hover-icon" onclick="completeTask({{ task['task_id'] }})">check_box</span>
+                            <span class="material-symbols-outlined hover-icon" title="Set task as completed" onclick="completeTask({{ task['task_id'] }})">check_box</span>
                         </span>
                         <span class="icon-swap">
                             <span class="material-symbols-outlined default-icon">delete</span>
-                            <span class="material-symbols-outlined hover-icon" onclick="confirmDeleteTask({{ task['task_id'] }})">delete_forever</span>
+                            <span class="material-symbols-outlined hover-icon" title="Delete Task" onclick="confirmDeleteTask({{ task['task_id'] }})">delete_forever</span>
                         </span>
                     </div>
                 </div>
@@ -74,14 +76,15 @@
                         {% endif %}
                     </div>
                     <div class="icon-group">
-                        <span class="material-symbols-outlined hover-pointer" onclick='openEditModal({{ task["task_id"] }}, {{ task["title"]|tojson }}, {{ task["description"]|tojson }}, {{ task["start_time"]|tojson }}, {{ task["all_day"]|tojson }})'>edit</span>
+                        <span>{{ task.start_time }}</span>
+                        <span class="material-symbols-outlined hover-pointer" title="Edit Task" onclick='openEditModal({{ task["task_id"] }}, {{ task["title"]|tojson }}, {{ task["description"]|tojson }}, {{ task["start_time"]|tojson }}, {{ task["all_day"]|tojson }})'>edit</span>
                         <span class="icon-swap">
                             <span class="material-symbols-outlined default-icon">check_box_outline_blank</span>
-                            <span class="material-symbols-outlined hover-icon" onclick="completeTask({{ task['task_id'] }})">check_box</span>
+                            <span class="material-symbols-outlined hover-icon" title="Set task as completed" onclick="completeTask({{ task['task_id'] }})">check_box</span>
                         </span>
                         <span class="icon-swap">
                             <span class="material-symbols-outlined default-icon">delete</span>
-                            <span class="material-symbols-outlined hover-icon" onclick="confirmDeleteTask({{ task['task_id'] }})">delete_forever</span>
+                            <span class="material-symbols-outlined hover-icon" title="Delete Task" onclick="confirmDeleteTask({{ task['task_id'] }})">delete_forever</span>
                         </span>
                     </div>
                 </div>
